@@ -3,7 +3,7 @@ package com.juntest.mitbbs;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubsetCombo {
+public class Q4_SubsetCombo {
 	
 	public void printAllSubset(List<Character> input, int i, List<Character> output) {
 		
@@ -33,12 +33,12 @@ public class SubsetCombo {
 		input.add('A');
 		input.add('B');
 		input.add('C');
-//		input.add('D');
-//		input.add('E');
-//		input.add('F');
-//		input.add('G');
+		input.add('D');
+		input.add('E');
+		input.add('F');
+		input.add('G');
 		
-		SubsetCombo sc = new SubsetCombo();
+		Q4_SubsetCombo sc = new Q4_SubsetCombo();
 		
 		sc.printAllSubset(input, 0, output);
 	}
