@@ -166,12 +166,8 @@ public class BinaryTree<T extends Comparable<T>> {
 		
 		int i = origin.indexOf(value);
 			
-		List<T> tmp = origin.subList(0, i);
-		left.addAll(tmp);
-		
-		
+		left.addAll(origin.subList(0, i));
 		right.addAll(origin.subList(i+1, origin.size()));
-		
 	}
 	
 	private List<T> extract(List<T> origin, List<T> sub){
