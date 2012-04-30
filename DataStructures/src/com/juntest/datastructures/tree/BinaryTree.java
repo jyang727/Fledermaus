@@ -3,8 +3,23 @@ package com.juntest.datastructures.tree;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
-public class BinaryTree<T> {
+/**
+ * Sample tree:
+ * 						5
+ * 				2				4
+ * 			6		1		3		9
+ * 				  7				  8  10
+ * 
+ * 
+ * @author Jun Yang
+ *
+ * @param <T>
+ */
+
+public class BinaryTree<T extends Comparable<T>> {
 	
 	private TreeNode<T> root;
 	
@@ -14,6 +29,55 @@ public class BinaryTree<T> {
 	public BinaryTree(TreeNode<T> root){
 		this.root = root;
 	}
+	
+	public TreeNode<T> SearchTreeNodeWithAncestors(TreeNode<T> r, T value, List<TreeNode<T>> ancestors)
+	{
+		if (r == null) 
+			return null;
+	
+		if (r.value.compareTo(value)==0)
+		{
+			ancestors.add(r);
+			return r;
+		}
+		else
+		{
+			// assume this node is in the ancestors path 
+			ancestors.add(r);
+			TreeNode<T> tn = SearchTreeNodeWithAncestors(r.left, value, ancestors);
+			if (tn != null)
+				return tn;
+			
+			tn = SearchTreeNodeWithAncestors(r.right, value, ancestors);
+			if (tn != null)
+				return tn;
+			
+			// now we cannot find the value in its subtree, so our assumption is wrong, lets remove it from ancestors list
+			ancestors.remove(r);
+			
+			return null;
+		}
+	}	
+	
+	public TreeNode<T> findLowestCommonAncestor(TreeNode<T> r, T val1, T val2)
+	{
+		List<TreeNode<T>> ancestor1 = new ArrayList<TreeNode<T>>();
+		TreeNode<T> n1 = SearchTreeNodeWithAncestors(r, val1, ancestor1);
+		
+		List<TreeNode<T>> ancestor2 = new ArrayList<TreeNode<T>>();
+		TreeNode<T> n2 = SearchTreeNodeWithAncestors(r, val2, ancestor2);
+	
+		int minLen = Math.min(ancestor1.size(), ancestor2.size());
+		
+		for (int i = 1; i < minLen; ++i)
+		{
+			if (ancestor1.get(i) != ancestor2.get(i))
+				return ancestor1.get(i-1);
+		}
+		
+		return ancestor1.size() > ancestor2.size() ? ancestor2.get(minLen - 1) : ancestor1.get(minLen - 1);
+	}
+	
 	
 	public void createTreeInorderPreorder(List<T> inorder, List<T> preorder){
 		
@@ -35,6 +99,9 @@ public class BinaryTree<T> {
 		
 		System.out.println("\nPost-order");		
 		printPostOrder(root);
+		
+		System.out.println("\nLevel-order");		
+		printLevelOrder(root);
 		
 	}
 	
@@ -192,12 +259,55 @@ public class BinaryTree<T> {
 		System.out.print(" " + r.value);
 	}		
 	
+	private void printLevelOrder(TreeNode<T> r){
+		
+		if (r==null){
+			return;
+		}
+				
+		Queue<TreeNode<T>> q = new ArrayBlockingQueue<TreeNode<T>>(100);
+		
+		q.add(r);
+		
+		while (!q.isEmpty()){
+			
+			TreeNode<T> tn = q.remove();
+			
+			System.out.print(" " + tn.value);
+			
+			if (tn.left!=null){
+				q.add(tn.left);
+			}
+			
+			if (tn.right!=null){
+				q.add(tn.right);
+			}			
+		}
+		
+		System.out.println();
+	}		
+	
 	public static class TreeNode<T> {
 		
 		public T value;
 		public TreeNode<T> left;
 		public TreeNode<T> right;		
 		
+		@Override
+		public String toString(){
+			
+			String s = "Node: Value=" + value;
+			
+			if (left!=null){
+				s += " left=" + left.value;
+			}
+			
+			if (right!=null){
+				s+= " right=" + right.value;
+			}
+			
+			return s;
+		}
 	}
 	
 	public static void main(String[] args){
@@ -210,6 +320,10 @@ public class BinaryTree<T> {
 		
 		bt.createTreeInorderPreorder(Arrays.asList(in_order), Arrays.asList(pre_order));		
 		
-		bt.createTreeInorderPostorder(Arrays.asList(in_order), Arrays.asList(post_order));
+		//bt.createTreeInorderPostorder(Arrays.asList(in_order), Arrays.asList(post_order));
+		
+		BinaryTree.TreeNode<Integer> tn = bt.findLowestCommonAncestor(bt.root, new Integer(7), new Integer(8));
+		
+		System.out.println("Lowest common ancestor is: " + tn);
 	}
 }
