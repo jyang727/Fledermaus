@@ -316,7 +316,7 @@ public class BinaryTree<T extends Comparable<T>> {
 		
 		bt.createTreeInorderPreorder(Arrays.asList(in_order), Arrays.asList(pre_order));		
 		
-		//bt.createTreeInorderPostorder(Arrays.asList(in_order), Arrays.asList(post_order));
+		bt.createTreeInorderPostorder(Arrays.asList(in_order), Arrays.asList(post_order));
 		
 		BinaryTree.TreeNode<Integer> tn = bt.findLowestCommonAncestor(bt.root, new Integer(7), new Integer(8));
 		
