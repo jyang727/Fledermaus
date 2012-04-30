@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.juntest.datastructures.tree.BinarySearchTree.Node;
-
 public class BinaryTree<T> {
 	
 	private TreeNode<T> root;
@@ -29,22 +27,39 @@ public class BinaryTree<T> {
 		
 		root = buildTreeInorderPreorder(inorder, preorder);
 		
+		System.out.println("\nIn-order:");
 		printInOrder(root);
+		
+		System.out.println("\nPre-order");		
+		printPreOrder(root);
+		
+		System.out.println("\nPost-order");		
+		printPostOrder(root);
 		
 	}
 	
-//	public void createTreeInorderPostorder(T[] inorder, T[] preorder){
-//		
-//		if (inorder==null || preorder==null){
-//			return;
-//		}
-//		
-//		if (inorder.length != preorder.length){
-//			return;
-//		}		
-//		
-//		root = buildTreeInorderPostorder(inorder, preorder, inorder.length);		
-//	}	
+	public void createTreeInorderPostorder(List<T> inorder, List<T> postorder){
+		
+		if (inorder==null || postorder==null){
+			return;
+		}
+		
+		if (inorder.size() != postorder.size()){
+			return;
+		}		
+		
+		root = buildTreeInorderPostorder(inorder, postorder);
+		
+		System.out.println("\nIn-order:");
+		printInOrder(root);
+		
+		System.out.println("\nPre-order");		
+		printPreOrder(root);
+		
+		System.out.println("\nPost-order");		
+		printPostOrder(root);
+		
+	}	
 	
 	/**
 	 * This method builds a tree based on the values specified both in in-order and pre-order traversals. 
@@ -61,31 +76,34 @@ public class BinaryTree<T> {
 		}
 		
 		// the root is always the first element in pre-order list		
-		TreeNode<T> root = new TreeNode<T>();
-		root.value = preorder.get(0);
+		TreeNode<T> r = new TreeNode<T>();
+		r.value = preorder.get(0);
 		
 		// divide the in-order array based on root: all the nodes on the left sub tree of root must be
 		// left to the root element in the in-order array
-		List<T> leftInorder = null;
-		List<T> rightInorder = null;
+		List<T> leftInorder = new ArrayList<T>();
+		List<T> rightInorder = new ArrayList<T>();
 		
-		divide(inorder, root.value, leftInorder, rightInorder);
+		divide(inorder, r.value, leftInorder, rightInorder);
 		
 		List<T> leftPreorder = extract(preorder, leftInorder);
 		List<T> rightPreorder = extract(preorder, rightInorder);
 
-		root.left = buildTreeInorderPreorder(leftInorder, leftPreorder);
-		root.right = buildTreeInorderPreorder(rightInorder, rightPreorder);
+		r.left = buildTreeInorderPreorder(leftInorder, leftPreorder);
+		r.right = buildTreeInorderPreorder(rightInorder, rightPreorder);
 		
-		return root;
+		return r;
 	}
 	
 	private void divide(List<T> origin, T value, List<T> left, List<T> right){
 		
 		int i = origin.indexOf(value);
+			
+		List<T> tmp = origin.subList(0, i);
+		left.addAll(tmp);
 		
-		left.addAll(origin.subList(0, i-1));
-		right.addAll(origin.subList(i+1, origin.size()-1));
+		
+		right.addAll(origin.subList(i+1, origin.size()));
 		
 	}
 	
@@ -112,9 +130,32 @@ public class BinaryTree<T> {
 	 * @param n number of nodes
 	 * @return root of the tree
 	 */
-//	private TreeNode buildTreeInorderPostorder(T[] inorder, T[] postorder, int n){
-//		
-//	}
+	private TreeNode<T> buildTreeInorderPostorder(List<T> inorder, List<T> postorder){
+
+		if (postorder.size()==0 || inorder.size()==0){
+			return null;
+		}
+		
+		// the root is always the first element in pre-order list		
+		TreeNode<T> r = new TreeNode<T>();
+		r.value = postorder.get(postorder.size()-1);
+		
+		// divide the in-order array based on root: all the nodes on the left sub tree of root must be
+		// left to the root element in the in-order array
+		List<T> leftInorder = new ArrayList<T>();
+		List<T> rightInorder = new ArrayList<T>();
+		
+		divide(inorder, r.value, leftInorder, rightInorder);
+		
+		List<T> leftPostorder = extract(postorder, leftInorder);
+		List<T> rightPostorder = extract(postorder, rightInorder);
+
+		r.left = buildTreeInorderPostorder(leftInorder, leftPostorder);
+		r.right = buildTreeInorderPostorder(rightInorder, rightPostorder);
+		
+		return r;		
+		
+	}
 	
 	private void printInOrder(TreeNode<T> r){
 		
@@ -126,6 +167,30 @@ public class BinaryTree<T> {
 		System.out.print(" " + r.value);
 		printInOrder(r.right);
 	}
+	
+	private void printPreOrder(TreeNode<T> r){
+		
+		if (r==null){
+			return;
+		}
+		
+		System.out.print(" " + r.value);
+		
+		printPreOrder(r.left);
+		printPreOrder(r.right);
+	}	
+	
+	private void printPostOrder(TreeNode<T> r){
+		
+		if (r==null){
+			return;
+		}
+				
+		printPostOrder(r.left);
+		printPostOrder(r.right);
+		
+		System.out.print(" " + r.value);
+	}		
 	
 	public static class TreeNode<T> {
 		
@@ -139,9 +204,12 @@ public class BinaryTree<T> {
 		
 		Integer[] in_order = new Integer[] {6,2,7,1,5,3,4,8,9,10};
 		Integer[] pre_order = new Integer[] {5,2,6,1,7,4,3,9,8,10};
+		Integer[] post_order = new Integer[] {6,7,1,2,3,8,10,9,4,5};
 		
 		BinaryTree<Integer> bt = new BinaryTree<Integer>();
+		
 		bt.createTreeInorderPreorder(Arrays.asList(in_order), Arrays.asList(pre_order));		
 		
+		bt.createTreeInorderPostorder(Arrays.asList(in_order), Arrays.asList(post_order));
 	}
 }
