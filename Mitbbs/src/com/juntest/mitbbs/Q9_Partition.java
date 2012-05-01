@@ -23,13 +23,15 @@ public class Q9_Partition {
 		
 		while (true){
 			
-			while (a[p1++]<v){
+			while (a[p1]<v){
+				p1++;
 				if (p1==n){
 					break;
 				}
 			}
 			
-			while (a[p2--]>v){
+			while (a[p2]>v){
+				p2--;
 				if (p2==0){
 					break;
 				}				
