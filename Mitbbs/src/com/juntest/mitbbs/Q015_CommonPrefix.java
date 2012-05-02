@@ -12,7 +12,7 @@ import java.util.List;
  *
  */
 
-public class Q15_CommonPrefix {
+public class Q015_CommonPrefix {
 
 	public String findCommonPrefix(List<String> in){
 		
@@ -54,7 +54,7 @@ public class Q15_CommonPrefix {
 		
 		String[] words = new String[]{"abcdef", "abc", "abcde", "abcd", "abcdefg"};
 		
-		Q15_CommonPrefix q15 = new Q15_CommonPrefix();
+		Q015_CommonPrefix q15 = new Q015_CommonPrefix();
 		
 		String prefix = q15.findCommonPrefix(Arrays.asList(words));
 		

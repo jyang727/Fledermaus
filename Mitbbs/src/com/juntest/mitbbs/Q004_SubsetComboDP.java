@@ -3,7 +3,7 @@ package com.juntest.mitbbs;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Q04_SubsetComboDP {
+public class Q004_SubsetComboDP {
 	
 	private List<List<String>> results = new ArrayList<List<String>>();
 	
@@ -79,7 +79,7 @@ public class Q04_SubsetComboDP {
 		
 		String[] input = new String[]{"A", "B", "C"};
 		
-		Q04_SubsetComboDP sc = new Q04_SubsetComboDP();
+		Q004_SubsetComboDP sc = new Q004_SubsetComboDP();
 		
 		sc.printAllSubset(input);
 	}

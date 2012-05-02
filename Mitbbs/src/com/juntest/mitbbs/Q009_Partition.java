@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.juntest.algorithms.util.RandomSeqNumberGenerator;
 
-public class Q09_Partition {
+public class Q009_Partition {
 	
 	/**
 	 * Partition the list by the value v so that all the values smaller than than v are left to
@@ -71,7 +71,7 @@ public class Q09_Partition {
 		Integer[] a = new Integer[list.size()];
 		list.toArray(a);
 		
-		Q09_Partition q9 = new Q09_Partition();
+		Q009_Partition q9 = new Q009_Partition();
 		
 		q9.partition(a, 0);
 	}

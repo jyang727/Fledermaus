@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.juntest.algorithms.util.RandomSeqNumberGenerator;
 
-public class Q22_MinMaxFinder {
+public class Q022_MinMaxFinder {
 	
 	private int min, max;
 	
@@ -61,7 +61,7 @@ public class Q22_MinMaxFinder {
 		Integer[] a = new Integer[list.size()];
 		list.toArray(a);
 		
-		Q22_MinMaxFinder q22 = new Q22_MinMaxFinder();
+		Q022_MinMaxFinder q22 = new Q022_MinMaxFinder();
 		
 		q22.findMinMax(a);
 	}
