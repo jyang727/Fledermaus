@@ -220,6 +220,49 @@ public class BinaryTree<T extends Comparable<T>> {
 		
 	}
 	
+	public int getHeight(){
+		return getHeight(root);
+	}
+	
+	private int getHeight(TreeNode<T> tn){
+		
+		if (tn==null){
+			return 0;
+		}
+		
+		return 1 + Math.max(getHeight(tn.left), getHeight(tn.right));
+		
+	}
+	
+	public int getBreadth(){
+		
+		int height = getHeight(root);
+		int max = 0;
+		
+		for (int i=1; i<=height; i++){
+			int w = getWidthForLevel(root, i);
+			if (w > max){
+				max = w;
+			}
+		}
+		
+		return max;
+	}
+	
+	private int getWidthForLevel(TreeNode<T> tn, int ll){
+		
+		if (tn==null){
+			return 0;
+		}
+		
+		if (ll==1){
+			return 1;
+		}
+		
+		return getWidthForLevel(tn.left, ll-1) + getWidthForLevel(tn.right, ll-1);
+				
+	}
+	
 	private void printInOrder(TreeNode<T> r){
 		
 		if (r==null){
@@ -283,6 +326,44 @@ public class BinaryTree<T extends Comparable<T>> {
 		System.out.println();
 	}		
 	
+	/**
+	 * This method prints the sum of all the nodes at the same level
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public void printLevelSum(){
+		
+		int levels = getHeight(root);
+		Integer zero = 0;
+		
+		List<T> list = new ArrayList<T>(levels);
+		
+		for (int i = 0; i<levels; i++){
+			list.add(i, (T)zero);
+		}
+		
+		printLevelSum(root, 0, list);
+		
+		for (T v : list){
+			System.out.println(v);
+		}
+		
+	}
+	
+	private void printLevelSum(TreeNode<T> tn, int level, List<T> buffer){
+		
+		if (tn!=null){
+			
+			Integer value = (Integer) buffer.get(level);
+			value += (Integer)tn.value;
+			buffer.set(level, (T) value);
+			
+			printLevelSum(tn.left, level+1, buffer);
+			printLevelSum(tn.right, level+1, buffer);
+		}
+		
+	}
+	
 	public static class TreeNode<T> {
 		
 		public T value;
@@ -316,10 +397,15 @@ public class BinaryTree<T extends Comparable<T>> {
 		
 		bt.createTreeInorderPreorder(Arrays.asList(in_order), Arrays.asList(pre_order));		
 		
-		bt.createTreeInorderPostorder(Arrays.asList(in_order), Arrays.asList(post_order));
+		//bt.createTreeInorderPostorder(Arrays.asList(in_order), Arrays.asList(post_order));
+		
+		System.out.println("Height of the tree is " + bt.getHeight());
+		System.out.println("Breadth of the tree is " + bt.getBreadth());
 		
 		BinaryTree.TreeNode<Integer> tn = bt.findLowestCommonAncestor(bt.root, new Integer(7), new Integer(8));
 		
 		System.out.println("Lowest common ancestor is: " + tn);
+		
+		bt.printLevelSum();
 	}
 }
