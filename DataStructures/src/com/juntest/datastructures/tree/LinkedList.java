@@ -94,6 +94,26 @@ public class LinkedList<T> {
 		System.out.println();
 	}
 	
+	/**
+	 * This method reverse the linked list in place.
+	 * 
+	 */
+	public void reverseList(){
+		
+		Node<T> remain = head.next;
+		head.next = null;
+				
+		while (remain!=null) {
+			
+			Node<T> tmp = remain;
+			remain = remain.next;
+			
+			tmp.next = head;
+			head = tmp;
+		}
+		
+	}
+	
 	public static class Node<T> {
 		
 		public Node(T val){
@@ -118,8 +138,11 @@ public class LinkedList<T> {
 		
 		ll.printList();
 		
-		ll.printListReverse();
+		//ll.printListReverse();
 		
-		ll.printListReverseUsingStack();
+		//ll.printListReverseUsingStack();
+		
+		ll.reverseList();
+		ll.printList();
 	}
 }
