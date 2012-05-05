@@ -28,6 +28,8 @@ public class Driver {
 		bst.printInOrder();
 		System.out.println("\nLevel order traversal:");
 		bst.printLevelOrder();
+		
+		System.out.println("\nMinimum value in the tree is: " + bst.getMin());
 	}
 	
 }
