@@ -30,6 +30,8 @@ public class Driver {
 		bst.printLevelOrder();
 		
 		System.out.println("\nMinimum value in the tree is: " + bst.getMin());
+		
+		bst.deleteMin();
 	}
 	
 }
