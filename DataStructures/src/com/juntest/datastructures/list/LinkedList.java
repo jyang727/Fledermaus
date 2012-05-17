@@ -1,4 +1,4 @@
-package com.juntest.datastructures.tree;
+package com.juntest.datastructures.list;
 
 import java.util.Arrays;
 import java.util.List;

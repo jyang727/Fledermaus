@@ -312,7 +312,7 @@ public class BinaryTree<T extends Comparable<T>> {
 			
 			TreeNode<T> tn = q.remove();
 			
-			System.out.print(" " + tn.value);
+			System.out.print(" " + tn.value);	
 			
 			if (tn.left!=null){
 				q.add(tn.left);
