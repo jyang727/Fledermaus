@@ -2,7 +2,10 @@ package com.juntest.datastructures.tree;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -360,8 +363,63 @@ public class BinaryTree<T extends Comparable<T>> {
 			
 			printLevelSum(tn.left, level+1, buffer);
 			printLevelSum(tn.right, level+1, buffer);
+		}		
+	}
+	
+	public int getWidth(){
+		
+		if (root==null){
+			return 0;
 		}
 		
+		Map<Integer, Integer> m = new HashMap<Integer, Integer>();	
+		getWidth(root, m, 0);
+
+		// at least we have root
+		int max = 1;
+		
+		Iterator itr = m.keySet().iterator();
+		
+		while (itr.hasNext()){
+			
+			Integer i = m.get(itr.next());
+			
+			System.out.println("i=" + i);
+			
+			if (i.intValue()>max){
+				max = i.intValue();
+			}
+		}
+		
+		return max;		
+	}
+	
+	private void getWidth(TreeNode<T> x, Map<Integer, Integer> m, int level){
+		
+		if (x==null){
+			return;
+		}
+		
+		if (x.left!=null){
+			increment(m, level+1);
+			getWidth(x.left, m, level+1);
+		}		
+		
+		if (x.right!=null){
+			increment(m, level+1);
+			getWidth(x.right, m, level+1);
+		}				
+	}
+	
+	private void increment(Map<Integer, Integer> m, int level){
+		
+		Integer i = m.get(level);
+		if (i==null){
+			m.put(level, 1);
+		}
+		else {
+			m.put(level, i.intValue()+1);
+		}
 	}
 	
 	public static class TreeNode<T> {
@@ -385,8 +443,8 @@ public class BinaryTree<T extends Comparable<T>> {
 			
 			return s;
 		}
-	}
-	
+	}	
+
 	public static void main(String[] args){
 		
 		Integer[] in_order = new Integer[] {6,2,7,1,5,3,4,8,9,10};
@@ -407,5 +465,7 @@ public class BinaryTree<T extends Comparable<T>> {
 		System.out.println("Lowest common ancestor is: " + tn);
 		
 		bt.printLevelSum();
+		
+		System.out.println("Width is " + bt.getWidth());
 	}
 }
